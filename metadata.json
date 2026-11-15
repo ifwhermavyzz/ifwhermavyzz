@@ -1,0 +1,6 @@
+{
+  "name": "The Aurora Summit",
+  "description": "The Aurora Summit Model United Nations — A Constellation of Voices.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-obsidian: #050505;
+  --color-midnight: #080C18;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F3E5AB;
+}
+
+@layer base {
+  html {
+    background-color: #050505;
+    color: #F8FAFC;
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #050505;
+  }
+}
+
+/* Luxury Glassmorphism Surfaces */
+.luxury-glass {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(13, 18, 36, 0.55) 55%,
+    rgba(5, 5, 5, 0.72) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 0 rgba(212, 175, 55, 0.06),
+    0 24px 60px -15px rgba(0, 0, 0, 0.75);
+}
+
+.luxury-glass-pill {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 20, 36, 0.72) 0%,
+    rgba(5, 5, 5, 0.82) 100%
+  );
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
+    0 16px 40px -12px rgba(0, 0, 0, 0.85);
+}
+
+/* ShinyText Keyframe Animation */
+@keyframes shiny-sweep {
+  0% {
+    background-position: 150% 50%;
+  }
+  100% {
+    background-position: -50% 50%;
+  }
+}
+
+.shiny-text {
+  background-image: linear-gradient(
+    115deg,
+    rgba(248, 250, 252, 0.35) 0%,
+    rgba(248, 250, 252, 0.55) 38%,
+    rgba(243, 229, 171, 0.98) 48%,
+    #D4AF37 52%,
+    rgba(248, 250, 252, 0.55) 62%,
+    rgba(248, 250, 252, 0.35) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shiny-sweep 6.5s ease-in-out infinite;
+}
+
+/* Button Shimmer Sweep */
+@keyframes btn-shimmer {
+  0% {
+    transform: translateX(-140%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(240%) skewX(-20deg);
+  }
+}
+
+.shimmer-sweep-bar {
+  animation: btn-shimmer 3.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .shiny-text {
+    animation: none;
+    background-position: 50% 50%;
+  }
+  .shimmer-sweep-bar {
+    animation: none;
+  }
+}
