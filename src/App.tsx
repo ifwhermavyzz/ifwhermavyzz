@@ -12,7 +12,6 @@ import { Committee } from './data/committees';
 export default function App() {
   const [activeSection, setActiveSection] = useState<NavSectionId>('home');
   const [regMode, setRegMode] = useState<RegistrationMode>('delegate');
-  const [preferredCommittee, setPreferredCommittee] = useState<Committee['id'] | ''>('');
 
   const scrollToSection = useCallback((id: NavSectionId) => {
     setActiveSection(id);
@@ -63,9 +62,8 @@ export default function App() {
     scrollToSection('contact');
   };
 
-  const handleSelectCommitteeForReg = (committeeId: Committee['id']) => {
+  const handleSelectCommitteeForReg = (_committeeId: Committee['id']) => {
     setRegMode('delegate');
-    setPreferredCommittee(committeeId);
     scrollToSection('contact');
   };
 
@@ -96,12 +94,7 @@ export default function App() {
 
           <CommitteesSection onSelectCommitteeForReg={handleSelectCommitteeForReg} />
 
-          <RegistrationSection
-            mode={regMode}
-            onModeChange={setRegMode}
-            preferredCommittee={preferredCommittee}
-            onPreferredCommitteeChange={setPreferredCommittee}
-          />
+          <RegistrationSection mode={regMode} onModeChange={setRegMode} />
         </main>
 
         <Footer onNavigate={scrollToSection} />
