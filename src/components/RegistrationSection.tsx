@@ -5,9 +5,6 @@ import { SplitText } from './reactbits/TextAnimations';
 
 export type RegistrationMode = 'delegate' | 'secretariat';
 
-const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbx31q6gCW8ImXjTbio8h6DzEyMLuHSPhsGtzWUTWzaXTf5lMse8yptrk1RRsDu-8OR1XQ/exec';
-
 const DEPARTMENT_OPTIONS = [
   'Social Media',
   'Sponsorships',
@@ -361,10 +358,18 @@ export function RegistrationSection({ mode, onModeChange }: RegistrationSectionP
       references: form.references.trim(),
     };
 
+    if (!import.meta.env.VITE_GOOGLE_SCRIPT_URL) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Registration endpoint is not configured. Please contact the organizers.',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    void fetch(APPS_SCRIPT_URL, {
+    void fetch(import.meta.env.VITE_GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: {
