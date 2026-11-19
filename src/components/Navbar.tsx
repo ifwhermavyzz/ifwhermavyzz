@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
+import { BRAND_ASSETS } from '../data/committees';
 
-export type NavSectionId = 'home' | 'about' | 'committees' | 'contact';
+export type NavSectionId = 'home' | 'about' | 'committees' | 'experience' | 'game' | 'contact';
 
 interface NavbarProps {
   activeSection: NavSectionId;
@@ -13,7 +14,8 @@ const NAV_ITEMS: { id: NavSectionId; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'About' },
   { id: 'committees', label: 'Committees' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'contact', label: 'Register' },
 ];
 
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
@@ -25,22 +27,30 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   };
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex flex-col items-center px-4 pt-4 sm:px-6 sm:pt-5">
-      <div className="pointer-events-auto luxury-glass-pill flex w-full max-w-4xl items-center justify-between gap-8 rounded-full px-5 py-2.5 sm:px-7 sm:py-3">
-        {/* Brand Wordmark (single-line, zero clutter) */}
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex flex-col items-center px-4 pt-3.5 sm:px-6 sm:pt-5">
+      <div className="pointer-events-auto aurora-glass-pill flex w-full max-w-5xl items-center justify-between gap-6 rounded-full px-4 py-2 sm:px-6 sm:py-2.5">
+        {/* Brand Logo & Wordmark */}
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault();
             handleLinkClick('home');
           }}
-          className="font-serif text-base font-semibold tracking-wide text-[#F8FAFC] whitespace-nowrap shrink-0 transition-colors hover:text-[#F3E5AB] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D4AF37] sm:text-lg"
+          className="flex items-center gap-2.5 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D4AF37]"
         >
-          Aurora Summit
+          <img
+            src={BRAND_ASSETS.logo}
+            alt="Aurora Summit 1.0 Crest"
+            referrerPolicy="no-referrer"
+            className="h-8 w-8 rounded-full border border-[#D4AF37]/40 object-cover sm:h-9 sm:w-9"
+          />
+          <span className="font-serif text-base font-semibold tracking-wide text-[#FAF6EE] transition-colors hover:text-[#F3E5AB] sm:text-lg">
+            Aurora Summit
+          </span>
         </a>
 
         {/* Desktop Links */}
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -52,7 +62,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
                   handleLinkClick(item.id);
                 }}
                 className={`relative py-1 text-sm font-medium tracking-wide whitespace-nowrap shrink-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D4AF37] ${
-                  isActive ? 'text-[#F3E5AB]' : 'text-[#CBD5E1] hover:text-[#F8FAFC]'
+                  isActive ? 'text-[#F3E5AB]' : 'text-[#D6C7B2] hover:text-[#FAF6EE]'
                 }`}
               >
                 {item.label}
@@ -74,7 +84,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
           onClick={() => setMobileOpen((prev) => !prev)}
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[#F8FAFC] transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37] md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[#FAF6EE] transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37] md:hidden"
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -89,7 +99,7 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="pointer-events-auto luxury-glass mt-2.5 flex w-full max-w-4xl flex-col gap-1 rounded-2xl p-3 md:hidden"
+            className="pointer-events-auto aurora-glass mt-2.5 flex w-full max-w-5xl flex-col gap-1 rounded-2xl p-3 md:hidden"
           >
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id;
@@ -103,8 +113,8 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
                   }}
                   className={`flex min-h-[44px] items-center justify-between rounded-xl px-4 text-sm font-medium whitespace-nowrap transition-colors ${
                     isActive
-                      ? 'bg-white/10 text-[#F3E5AB]'
-                      : 'text-[#CBD5E1] hover:bg-white/5 hover:text-[#F8FAFC]'
+                      ? 'bg-[#D4AF37]/15 text-[#F3E5AB]'
+                      : 'text-[#D6C7B2] hover:bg-white/5 hover:text-[#FAF6EE]'
                   }`}
                 >
                   <span>{item.label}</span>

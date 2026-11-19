@@ -3,85 +3,82 @@
 @theme {
   --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --color-obsidian: #050505;
-  --color-midnight: #080C18;
+  --color-espresso: #1A100A;
+  --color-espresso-deep: #110A06;
+  --color-espresso-card: #24160E;
   --color-gold: #D4AF37;
   --color-gold-light: #F3E5AB;
+  --color-ivory: #FAF6EE;
 }
 
 @layer base {
   html {
-    background-color: #050505;
-    color: #F8FAFC;
+    background-color: #1A100A;
+    color: #FAF6EE;
     font-family: var(--font-sans);
-    scroll-behavior: smooth;
   }
 
   body {
     overflow-x: hidden;
-    background-color: #050505;
+    background-color: #1A100A;
   }
 }
 
-/* Luxury Glassmorphism Surfaces */
-.luxury-glass {
+/* Editorial Luxury Espresso Glassmorphism */
+.aurora-glass {
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.055) 0%,
-    rgba(13, 18, 36, 0.55) 55%,
-    rgba(5, 5, 5, 0.72) 100%
+    rgba(42, 26, 16, 0.72) 0%,
+    rgba(26, 16, 10, 0.86) 60%,
+    rgba(17, 10, 6, 0.92) 100%
+  );
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  box-shadow:
+    inset 0 1px 0 0 rgba(243, 229, 171, 0.14),
+    0 24px 60px -16px rgba(0, 0, 0, 0.78);
+}
+
+.aurora-glass-pill {
+  background: linear-gradient(
+    135deg,
+    rgba(36, 22, 14, 0.82) 0%,
+    rgba(20, 12, 7, 0.9) 100%
   );
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.22);
   box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 0 0 rgba(212, 175, 55, 0.06),
-    0 24px 60px -15px rgba(0, 0, 0, 0.75);
+    inset 0 1px 0 0 rgba(243, 229, 171, 0.16),
+    0 16px 40px -12px rgba(0, 0, 0, 0.82);
 }
 
-.luxury-glass-pill {
-  background: linear-gradient(
-    135deg,
-    rgba(16, 20, 36, 0.72) 0%,
-    rgba(5, 5, 5, 0.82) 100%
-  );
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.14),
-    0 16px 40px -12px rgba(0, 0, 0, 0.85);
-}
-
-/* ShinyText Keyframe Animation */
-@keyframes shiny-sweep {
+/* Marquee 3D Continuous Scroll */
+@keyframes marquee-scroll {
   0% {
-    background-position: 150% 50%;
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    background-position: -50% 50%;
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
-.shiny-text {
-  background-image: linear-gradient(
-    115deg,
-    rgba(248, 250, 252, 0.35) 0%,
-    rgba(248, 250, 252, 0.55) 38%,
-    rgba(243, 229, 171, 0.98) 48%,
-    #D4AF37 52%,
-    rgba(248, 250, 252, 0.55) 62%,
-    rgba(248, 250, 252, 0.35) 100%
-  );
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shiny-sweep 6.5s ease-in-out infinite;
+.animate-marquee-3d {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
 }
 
-/* Button Shimmer Sweep */
+.animate-marquee-3d-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 34s linear infinite reverse;
+  will-change: transform;
+}
+
+/* Shimmer & Spotlight Keyframes */
 @keyframes btn-shimmer {
   0% {
     transform: translateX(-140%) skewX(-20deg);
@@ -95,15 +92,26 @@
   animation: btn-shimmer 3.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
+@keyframes spotlight-sweep {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.55);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -42%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight-sweep 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  .shiny-text {
-    animation: none;
-    background-position: 50% 50%;
-  }
-  .shimmer-sweep-bar {
+  .animate-marquee-3d,
+  .animate-marquee-3d-reverse,
+  .shimmer-sweep-bar,
+  .animate-spotlight {
     animation: none;
   }
 }
