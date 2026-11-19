@@ -9,12 +9,11 @@ import { AboutSection } from './components/AboutSection';
 import { CommitteesSection } from './components/CommitteesSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { AuroraDriftGame } from './components/AuroraDriftGame';
-import { RegistrationMode, RegistrationSection } from './components/RegistrationSection';
+import { RegistrationSection } from './components/RegistrationSection';
 import { Footer } from './components/Footer';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<NavSectionId>('home');
-  const [regMode, setRegMode] = useState<RegistrationMode>('delegate');
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
@@ -92,13 +91,7 @@ export default function App() {
     };
   }, []);
 
-  const handleRegisterClick = () => {
-    setRegMode('delegate');
-    scrollToSection('contact');
-  };
-
   const handleSecretariatClick = () => {
-    setRegMode('secretariat');
     scrollToSection('contact');
   };
 
@@ -117,7 +110,6 @@ export default function App() {
         {/* Main Content */}
         <main className="relative z-10">
           <HeroSection
-            onRegisterClick={handleRegisterClick}
             onSecretariatClick={handleSecretariatClick}
             onPlayGameClick={() => scrollToSection('game')}
             onExploreAbout={() => scrollToSection('about')}
@@ -125,13 +117,13 @@ export default function App() {
 
           <AboutSection />
 
-          <CommitteesSection onRegisterCommittee={handleRegisterClick} />
+          <CommitteesSection onRegisterCommittee={handleSecretariatClick} />
 
           <ExperienceSection />
 
           <AuroraDriftGame />
 
-          <RegistrationSection mode={regMode} onModeChange={setRegMode} />
+          <RegistrationSection />
         </main>
 
         <Footer onNavigate={scrollToSection} />

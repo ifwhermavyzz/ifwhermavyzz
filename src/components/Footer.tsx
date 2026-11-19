@@ -48,7 +48,7 @@ export function Footer({ onNavigate }: FooterProps) {
                     }}
                     className="capitalize transition-colors hover:text-[#F3E5AB]"
                   >
-                    {id === 'contact' ? 'Register' : id}
+                    {id === 'contact' ? 'Secretariat' : id}
                   </a>
                 )
               )}

@@ -6,14 +6,12 @@ import { Spotlight, CursorSpotlightRegion } from './aceternity/Spotlight';
 import { TextGenerateEffect } from './aceternity/TextGenerateEffect';
 
 interface HeroSectionProps {
-  onRegisterClick: () => void;
   onSecretariatClick: () => void;
   onPlayGameClick: () => void;
   onExploreAbout: () => void;
 }
 
 export function HeroSection({
-  onRegisterClick,
   onSecretariatClick,
   onPlayGameClick,
   onExploreAbout,
@@ -119,19 +117,11 @@ export function HeroSection({
           >
             <button
               type="button"
-              onClick={onRegisterClick}
+              onClick={onSecretariatClick}
               className="group relative inline-flex min-h-[46px] items-center gap-2 overflow-hidden rounded-full border border-[#F3E5AB]/50 bg-gradient-to-r from-[#D4AF37] via-[#E5C667] to-[#C69C2B] px-7 py-3 text-sm font-semibold text-[#1A100A] shadow-[0_14px_36px_-10px_rgba(212,175,55,0.55)] transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
             >
-              <span>Register Now</span>
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={onSecretariatClick}
-              className="aurora-glass inline-flex min-h-[46px] items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-[#FAF6EE] transition-colors hover:border-[#D4AF37]/60 hover:text-[#F3E5AB]"
-            >
               <span>Secretariat Application</span>
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
 
             <button

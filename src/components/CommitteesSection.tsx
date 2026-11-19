@@ -31,24 +31,24 @@ function ScrollAnimatedCommitteeCard({
   const scrollScale = useTransform(scrollYProgress, [0, 0.45], [0.94, 1]);
 
   return (
-    <motion.div
-      ref={cardRef}
-      style={
-        prefersReducedMotion
-          ? undefined
-          : {
-              rotateX: scrollTiltX,
-              scale: scrollScale,
-              transformPerspective: 1000,
-            }
-      }
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="flex will-change-transform"
-    >
-      <WobbleCard containerClassName="w-full">
+    <div ref={cardRef} className="flex">
+      <motion.div
+        style={
+          prefersReducedMotion
+            ? undefined
+            : {
+                rotateX: scrollTiltX,
+                scale: scrollScale,
+                transformPerspective: 1000,
+              }
+        }
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+        className="flex w-full will-change-transform"
+      >
+        <WobbleCard containerClassName="w-full">
         <CardContainer containerClassName="w-full h-full" className="w-full h-full">
           <CardBody className="w-full h-full">
             <HoverBorderGradient roundedClassName="rounded-3xl" containerClassName="h-full">
@@ -112,9 +112,10 @@ function ScrollAnimatedCommitteeCard({
               </CardSpotlight>
             </HoverBorderGradient>
           </CardBody>
-        </CardContainer>
-      </WobbleCard>
-    </motion.div>
+          </CardContainer>
+        </WobbleCard>
+      </motion.div>
+    </div>
   );
 }
 
@@ -367,7 +368,7 @@ export const CommitteesSection = React.memo(function CommitteesSection({
                       }}
                       className="inline-flex min-h-[42px] items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#E5C667] px-6 py-2 text-xs font-semibold text-[#1A100A]"
                     >
-                      <span>Apply for Summit</span>
+                      <span>Apply for Secretariat</span>
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </button>
                   </div>

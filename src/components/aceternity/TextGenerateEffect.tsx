@@ -131,25 +131,12 @@ function ScrollWord({
   );
 }
 
-export function ScrollIlluminatedLineup({ items }: { items: string[] }) {
+function ScrollIlluminatedLineupAnimated({ items }: { items: string[] }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const prefersReducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start 0.85', 'end 0.4'],
   });
-
-  if (prefersReducedMotion) {
-    return (
-      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-6">
-        {items.map((item) => (
-          <span key={item} className="font-serif text-xl font-semibold text-[#F3E5AB] sm:text-3xl">
-            {item}
-          </span>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div
@@ -163,4 +150,22 @@ export function ScrollIlluminatedLineup({ items }: { items: string[] }) {
       })}
     </div>
   );
+}
+
+export function ScrollIlluminatedLineup({ items }: { items: string[] }) {
+  const prefersReducedMotion = useReducedMotion();
+
+  if (prefersReducedMotion) {
+    return (
+      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-6">
+        {items.map((item) => (
+          <span key={item} className="font-serif text-xl font-semibold text-[#F3E5AB] sm:text-3xl">
+            {item}
+          </span>
+        ))}
+      </div>
+    );
+  }
+
+  return <ScrollIlluminatedLineupAnimated items={items} />;
 }

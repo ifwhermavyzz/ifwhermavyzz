@@ -4,8 +4,6 @@ import { AlertCircle, CheckCircle2, ChevronDown, Loader2, Send } from 'lucide-re
 import { HoverBorderGradient } from './aceternity/HoverBorderGradient';
 import { CardSpotlight } from './aceternity/CardSpotlight';
 
-export type RegistrationMode = 'delegate' | 'secretariat';
-
 const DEPARTMENT_OPTIONS = [
   'Social Media',
   'Sponsorships',
@@ -17,11 +15,6 @@ const DEPARTMENT_OPTIONS = [
 const HOURS_OPTIONS = ['1-2', '3-5', '5-8', '8+'] as const;
 
 const DELEGATES_OPTIONS = ['3-5', '6-8', '8-10', '10-15', '15+'] as const;
-
-interface RegistrationSectionProps {
-  mode: RegistrationMode;
-  onModeChange: (mode: RegistrationMode) => void;
-}
 
 interface FloatingInputProps {
   id: string;
@@ -264,7 +257,7 @@ const INITIAL_FORM_STATE: FormState = {
 
 type FormErrors = Partial<Record<keyof FormState, string>>;
 
-export function RegistrationSection({ mode, onModeChange }: RegistrationSectionProps) {
+export function RegistrationSection() {
   const [form, setForm] = useState<FormState>(INITIAL_FORM_STATE);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -386,7 +379,7 @@ export function RegistrationSection({ mode, onModeChange }: RegistrationSectionP
     setErrors({});
     setSubmitStatus({
       type: 'success',
-      message: `Application submitted successfully! Thank you, ${payload.name} — our Aurora Summit team has received your registration.`,
+      message: `Application submitted successfully! Thank you, ${payload.name} — our Aurora Summit team has received your Secretariat application.`,
     });
   };
 
@@ -397,14 +390,14 @@ export function RegistrationSection({ mode, onModeChange }: RegistrationSectionP
     >
       <div className="mb-10 text-center">
         <p className="text-xs font-medium tracking-[0.18em] text-[#D4AF37]">
-          04. Delegate &amp; Secretariat Intake
+          04. Secretariat Intake
         </p>
         <h2 className="mt-2 font-serif text-3xl leading-tight font-semibold tracking-tight text-[#FAF6EE] sm:text-4xl lg:text-[2.75rem]">
-          Reserve Your Voice
+          Secretariat Application
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[#D6C7B2] sm:text-base">
-          Complete the dossier below to apply for Aurora Summit 1.0. Our team reviews every
-          submission on a rolling basis.
+          Complete the dossier below to apply for the Aurora Summit 1.0 Secretariat. Our team
+          reviews every submission on a rolling basis.
         </p>
       </div>
 
@@ -416,44 +409,6 @@ export function RegistrationSection({ mode, onModeChange }: RegistrationSectionP
       >
         <HoverBorderGradient roundedClassName="rounded-3xl">
           <CardSpotlight className="rounded-3xl p-6 sm:p-10">
-            <div className="mb-8 flex justify-center">
-              <div
-                role="tablist"
-                aria-label="Application Type"
-                className="inline-flex rounded-full border border-[#D4AF37]/25 bg-[#120A06]/80 p-1"
-              >
-                {(
-                  [
-                    { id: 'delegate', label: 'Delegate Registration' },
-                    { id: 'secretariat', label: 'Secretariat Application' },
-                  ] as const
-                ).map((tab) => {
-                  const active = mode === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => onModeChange(tab.id)}
-                      className={`relative rounded-full px-4 py-2 text-xs font-medium whitespace-nowrap shrink-0 transition-colors sm:px-5 sm:text-sm ${
-                        active ? 'text-[#1A100A]' : 'text-[#D6C7B2] hover:text-white'
-                      }`}
-                    >
-                      {active && (
-                        <motion.span
-                          layoutId="regModeTab"
-                          transition={{ type: 'spring', stiffness: 360, damping: 30 }}
-                          className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#E5C667]"
-                        />
-                      )}
-                      <span className="relative z-10">{tab.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <FloatingInput

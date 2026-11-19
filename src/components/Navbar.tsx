@@ -15,7 +15,7 @@ const NAV_ITEMS: { id: NavSectionId; label: string }[] = [
   { id: 'about', label: 'About' },
   { id: 'committees', label: 'Committees' },
   { id: 'experience', label: 'Experience' },
-  { id: 'contact', label: 'Register' },
+  { id: 'contact', label: 'Secretariat' },
 ];
 
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
