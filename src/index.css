@@ -16,28 +16,55 @@
     background-color: #1A100A;
     color: #FAF6EE;
     font-family: var(--font-sans);
+    overflow-x: clip;
   }
 
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
     background-color: #1A100A;
   }
 }
 
-/* Editorial Luxury Espresso Glassmorphism */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.mb-safe {
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Lenis Smooth Scroll Integration */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Heavy Editorial Luxury Espresso Glassmorphism */
 .aurora-glass {
   background: linear-gradient(
     145deg,
-    rgba(42, 26, 16, 0.72) 0%,
+    rgba(42, 26, 16, 0.74) 0%,
     rgba(26, 16, 10, 0.86) 60%,
     rgba(17, 10, 6, 0.92) 100%
   );
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(212, 175, 55, 0.18);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(212, 175, 55, 0.28);
   box-shadow:
-    inset 0 1px 0 0 rgba(243, 229, 171, 0.14),
-    0 24px 60px -16px rgba(0, 0, 0, 0.78);
+    inset 0 1px 0 0 rgba(243, 229, 171, 0.18),
+    0 24px 60px -14px rgba(0, 0, 0, 0.82);
 }
 
 .aurora-glass-pill {
@@ -92,6 +119,38 @@
   animation: btn-shimmer 3.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
+/* Automatic 4-Second Golden Metallic Light Sweep for Hero Title */
+@keyframes title-gold-shimmer {
+  0%,
+  12% {
+    background-position: 180% 50%;
+  }
+  58%,
+  100% {
+    background-position: -80% 50%;
+  }
+}
+
+.hero-gold-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    #D4AF37 0%,
+    #D4AF37 32%,
+    #F3E5AB 44%,
+    #FFFDF4 50%,
+    #F3E5AB 56%,
+    #D4AF37 68%,
+    #D4AF37 100%
+  );
+  background-size: 260% 100%;
+  background-position: 180% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: title-gold-shimmer 4s ease-in-out infinite;
+}
+
 @keyframes spotlight-sweep {
   0% {
     opacity: 0;
@@ -111,7 +170,12 @@
   .animate-marquee-3d,
   .animate-marquee-3d-reverse,
   .shimmer-sweep-bar,
-  .animate-spotlight {
+  .animate-spotlight,
+  .hero-gold-shimmer {
     animation: none;
+  }
+  .hero-gold-shimmer {
+    -webkit-text-fill-color: #E5C667;
+    color: #E5C667;
   }
 }

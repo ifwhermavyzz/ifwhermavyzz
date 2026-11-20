@@ -63,7 +63,7 @@ export const ExperienceSection = React.memo(function ExperienceSection() {
         </p>
       </motion.div>
 
-      {/* Bento Grid for the 7 Experience Highlights with WobbleCard physics */}
+      {/* Bento Grid for the 7 Experience Highlights with WobbleCard & HoverBorderGradient */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
         {CONFERENCE_HIGHLIGHTS.map((item, idx) => {
           const isSurprise = Boolean(item.isSurprise);
@@ -89,7 +89,7 @@ export const ExperienceSection = React.memo(function ExperienceSection() {
                         <span className="text-xs font-medium tracking-[0.14em] text-[#D4AF37]">
                           {item.kicker}
                         </span>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#D4AF37]/30 bg-[#1A100A]/85">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#D4AF37]/35 bg-[#1A100A]/85">
                           <HighlightIcon name={item.icon} />
                         </div>
                       </div>
@@ -106,7 +106,7 @@ export const ExperienceSection = React.memo(function ExperienceSection() {
                     </div>
 
                     {isSurprise && (
-                      <div className="mt-4 border-t border-[#D4AF37]/15 pt-3 text-xs font-medium text-[#F3E5AB]">
+                      <div className="mt-4 border-t border-[#D4AF37]/20 pt-3 text-xs font-medium text-[#F3E5AB]">
                         {twistPeek ? 'Transmission Decoded' : 'Hover or tap to preview hint'}
                       </div>
                     )}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { BRAND_ASSETS } from '../data/committees';
 
@@ -20,6 +20,12 @@ const NAV_ITEMS: { id: NavSectionId; label: string }[] = [
 
 export function Navbar({ activeSection, onNavigate }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 240,
+    damping: 32,
+    restDelta: 0.001,
+  });
 
   const handleLinkClick = (id: NavSectionId) => {
     setMobileOpen(false);
@@ -88,6 +94,17 @@ export function Navbar({ activeSection, onNavigate }: NavbarProps) {
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
+      </div>
+
+      {/* 1px Golden Scroll Progress Bar directly beneath the Floating Navbar */}
+      <div
+        aria-hidden="true"
+        className="mt-1.5 w-full max-w-[calc(64rem-2.5rem)] overflow-hidden rounded-full bg-[#D4AF37]/15"
+      >
+        <motion.div
+          style={{ scaleX: smoothProgress, transformOrigin: '0% 50%' }}
+          className="h-[1px] w-full bg-gradient-to-r from-[#B57E28] via-[#F3E5AB] to-[#D4AF37] shadow-[0_0_8px_rgba(243,229,171,0.75)]"
+        />
       </div>
 
       {/* Mobile Floating Glass Menu */}

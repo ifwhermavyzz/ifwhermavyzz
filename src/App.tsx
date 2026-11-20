@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MotionConfig } from 'motion/react';
 import { Preloader } from './components/Preloader';
 import { SpaceParallaxBackground } from './components/SpaceParallaxBackground';
@@ -10,36 +12,77 @@ import { CommitteesSection } from './components/CommitteesSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { AuroraDriftGame } from './components/AuroraDriftGame';
 import { RegistrationSection } from './components/RegistrationSection';
+import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { MiniAiAssistant } from './components/MiniAiAssistant';
+import { CustomGlowingCursor } from './components/CustomGlowingCursor';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<NavSectionId>('home');
+  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 35, active: false });
   const lenisRef = useRef<Lenis | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.085,
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      syncTouch: true,
+      touchMultiplier: 1.35,
     });
     lenisRef.current = lenis;
 
-    let rafId = 0;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const tickerFn = (time: number) => {
+      lenis.raf(time * 1000);
     };
-    rafId = requestAnimationFrame(raf);
+    gsap.ticker.add(tickerFn);
+    gsap.ticker.lagSmoothing(0);
+
+    // Subtle GSAP ScrollTrigger reveals across page sections on desktop & mobile
+    const ctx = gsap.context(() => {
+      const sections = gsap.utils.toArray<HTMLElement>('main > section:not(#home)');
+      sections.forEach((sec) => {
+        gsap.fromTo(
+          sec,
+          { opacity: 0.72, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            ease: 'power2.out',
+            clearProps: 'transform',
+            scrollTrigger: {
+              trigger: sec,
+              start: 'top 88%',
+              end: 'top 45%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
+      ScrollTrigger.refresh();
+    }, mainRef);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      ctx.revert();
+      gsap.ticker.remove(tickerFn);
       lenis.destroy();
       lenisRef.current = null;
     };
+  }, []);
+
+  useEffect(() => {
+    const onPointerMove = (e: PointerEvent) => {
+      const x = (e.clientX / Math.max(1, window.innerWidth)) * 100;
+      const y = (e.clientY / Math.max(1, window.innerHeight)) * 100;
+      setSpotlightPos({ x, y, active: true });
+    };
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    return () => window.removeEventListener('pointermove', onPointerMove);
   }, []);
 
   const scrollToSection = useCallback((id: NavSectionId) => {
@@ -98,17 +141,27 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="relative min-h-screen bg-[#1A100A] text-[#FAF6EE]">
-        {/* jjettas.com-inspired 0% -> 100% Preloader Curtain */}
+        {/* Preloader Curtain */}
         <Preloader />
 
-        {/* Global Space Background with Parallax Scroll + Lazy R3F Golden Particles */}
+        {/* Global Space Background with Parallax Scroll + R3F Golden Stars & Bubbles */}
         <SpaceParallaxBackground />
 
-        {/* Floating Pill Navbar */}
+        {/* Global Cursor-Following Golden Background Spotlight */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-[3] transition-opacity duration-300"
+          style={{
+            opacity: spotlightPos.active ? 1 : 0.45,
+            background: `radial-gradient(560px circle at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(212, 175, 55, 0.14), rgba(243, 229, 171, 0.04) 42%, transparent 72%)`,
+          }}
+        />
+
+        {/* Floating Pill Navbar with 1px Scroll Progress Indicator */}
         <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
 
         {/* Main Content */}
-        <main className="relative z-10">
+        <main ref={mainRef} className="relative z-10">
           <HeroSection
             onSecretariatClick={handleSecretariatClick}
             onPlayGameClick={() => scrollToSection('game')}
@@ -124,9 +177,17 @@ export default function App() {
           <AuroraDriftGame />
 
           <RegistrationSection />
+
+          <ContactSection />
         </main>
 
         <Footer onNavigate={scrollToSection} />
+
+        {/* Floating Mini AI Assistant FAB & Chat UI */}
+        <MiniAiAssistant />
+
+        {/* Desktop Custom Glowing Cursor */}
+        <CustomGlowingCursor />
       </div>
     </MotionConfig>
   );

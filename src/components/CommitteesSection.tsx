@@ -49,69 +49,69 @@ function ScrollAnimatedCommitteeCard({
         className="flex w-full will-change-transform"
       >
         <WobbleCard containerClassName="w-full">
-        <CardContainer containerClassName="w-full h-full" className="w-full h-full">
-          <CardBody className="w-full h-full">
-            <HoverBorderGradient roundedClassName="rounded-3xl" containerClassName="h-full">
-              <CardSpotlight className="flex h-full flex-col justify-between rounded-3xl p-4 sm:p-5">
-                <div>
-                  {/* Poster Asset with 3D Z-elevation */}
-                  <CardItem translateZ={42} className="w-full">
-                    <div
-                      onClick={() => onSelect(committee)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          onSelect(committee);
-                        }
-                      }}
-                      aria-label={`Inspect ${committee.acronym} poster`}
-                      className="group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#120A06]"
-                    >
-                      <img
-                        src={committee.posterUrl}
-                        alt={`${committee.acronym} - ${committee.name} Poster`}
-                        referrerPolicy="no-referrer"
-                        loading="lazy"
-                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
-                      />
+          <CardContainer containerClassName="w-full h-full" className="w-full h-full">
+            <CardBody className="w-full h-full">
+              <HoverBorderGradient roundedClassName="rounded-3xl" containerClassName="h-full">
+                <CardSpotlight className="flex h-full flex-col justify-between rounded-3xl p-4 sm:p-5">
+                  <div>
+                    {/* Poster Asset with 3D Z-elevation */}
+                    <CardItem translateZ={42} className="w-full">
                       <div
-                        aria-hidden="true"
-                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1A100A]/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      />
-                    </div>
-                  </CardItem>
+                        onClick={() => onSelect(committee)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            onSelect(committee);
+                          }
+                        }}
+                        aria-label={`Inspect ${committee.acronym} poster`}
+                        className="group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-2xl border-2 border-[#D4AF37]/45 bg-[#120A06] shadow-[0_0_24px_-6px_rgba(212,175,55,0.28)]"
+                      >
+                        <img
+                          src={committee.posterUrl}
+                          alt={`${committee.acronym} - ${committee.name} Poster`}
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
+                        />
+                        <div
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1A100A]/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        />
+                      </div>
+                    </CardItem>
 
-                  {/* Metadata & Title */}
-                  <CardItem translateZ={26} className="mt-4 w-full">
-                    <div className="flex items-center gap-2 text-xs text-[#D4AF37]">
-                      <span>{committee.tier}</span>
-                      <span aria-hidden="true">·</span>
-                      <span className="tabular-nums">{committee.delegatesCount} Seats</span>
-                    </div>
-                    <h3 className="mt-1.5 font-serif text-xl font-semibold text-[#FAF6EE]">
-                      {committee.acronym} — {committee.name}
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#D6C7B2] sm:text-sm">
-                      {committee.summary}
-                    </p>
-                  </CardItem>
-                </div>
+                    {/* Metadata & Title */}
+                    <CardItem translateZ={26} className="mt-4 w-full">
+                      <div className="flex items-center gap-2 text-xs text-[#D4AF37]">
+                        <span>{committee.tier}</span>
+                        <span aria-hidden="true">·</span>
+                        <span className="tabular-nums">{committee.delegatesCount} Seats</span>
+                      </div>
+                      <h3 className="mt-1.5 font-serif text-xl font-semibold text-[#FAF6EE]">
+                        {committee.acronym} — {committee.name}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#D6C7B2] sm:text-sm">
+                        {committee.summary}
+                      </p>
+                    </CardItem>
+                  </div>
 
-                <CardItem translateZ={32} className="mt-5 w-full border-t border-[#D4AF37]/15 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => onSelect(committee)}
-                    className="group inline-flex min-h-[40px] w-full items-center justify-between rounded-full border border-[#D4AF37]/35 bg-[#1A100A]/80 px-5 py-2 text-xs font-medium tracking-wide text-[#F3E5AB] transition-colors hover:border-[#D4AF37] hover:bg-[#D4AF37]/15"
-                  >
-                    <span>View Chamber Dossier</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </button>
-                </CardItem>
-              </CardSpotlight>
-            </HoverBorderGradient>
-          </CardBody>
+                  <CardItem translateZ={32} className="mt-5 w-full border-t border-[#D4AF37]/20 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => onSelect(committee)}
+                      className="group inline-flex min-h-[42px] w-full items-center justify-between rounded-full border-2 border-[#D4AF37]/60 bg-[#1A100A]/85 px-5 py-2 text-xs font-semibold tracking-wide text-[#F3E5AB] shadow-[0_0_18px_-4px_rgba(212,175,55,0.3)] transition-all duration-200 hover:border-[#F3E5AB] hover:bg-[#D4AF37]/20 hover:shadow-[0_0_26px_rgba(212,175,55,0.5)]"
+                    >
+                      <span>View Chamber Dossier</span>
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </button>
+                  </CardItem>
+                </CardSpotlight>
+              </HoverBorderGradient>
+            </CardBody>
           </CardContainer>
         </WobbleCard>
       </motion.div>
@@ -215,7 +215,7 @@ export const CommitteesSection = React.memo(function CommitteesSection({
                     className={`flex h-16 w-16 items-center justify-center rounded-full border transition-all duration-300 ${
                       surpriseRevealed
                         ? 'border-[#D4AF37] bg-[#D4AF37]/20 shadow-[0_0_36px_rgba(212,175,55,0.45)]'
-                        : 'border-[#D4AF37]/35 bg-[#1A100A]/85'
+                        : 'border-[#D4AF37]/40 bg-[#1A100A]/85'
                     }`}
                   >
                     {surpriseRevealed ? (

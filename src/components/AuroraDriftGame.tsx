@@ -820,9 +820,7 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
           </h2>
         </div>
         <p className="max-w-md text-sm text-[#D6C7B2]">
-          Inspired by <span className="text-[#F3E5AB]">book.sequel.co</span>—pilot the golden
-          envoy through cosmic boosts &amp; red-tape barriers. Touch drag on phone or mouse / arrow
-          keys on laptop.
+          Pilot the golden envoy through cosmic boosts and red-tape barriers to reach the summit.
         </p>
       </div>
 
@@ -830,7 +828,7 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
         <CardSpotlight className="rounded-3xl p-4 sm:p-6">
           {/* Playable Frame */}
           <div
-            className="relative h-[430px] w-full overflow-hidden rounded-2xl border border-[#D4AF37]/25 bg-[#100905] sm:h-[490px]"
+            className="relative h-[430px] w-full overflow-hidden rounded-2xl border-2 border-[#D4AF37]/35 bg-[#100905] sm:h-[490px]"
             style={{ touchAction: 'none' }}
           >
             <canvas
@@ -864,24 +862,28 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
               </div>
 
               {gameState === 'PLAYING' && (
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
                   onClick={() => setGameState('PAUSED')}
                   aria-label="Pause game"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#1A100A]/80 text-[#FAF6EE] hover:border-[#D4AF37]"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/35 bg-[#1A100A]/85 text-[#FAF6EE] transition-all duration-200 hover:border-[#D4AF37] hover:shadow-[0_0_18px_rgba(212,175,55,0.45)]"
                 >
                   <Pause className="h-4 w-4" />
-                </button>
+                </motion.button>
               )}
 
-              <button
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
                 onClick={() => setMuted((m) => !m)}
                 aria-label={muted ? 'Unmute audio' : 'Mute audio'}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#1A100A]/80 text-[#F3E5AB] hover:border-[#D4AF37]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/35 bg-[#1A100A]/85 text-[#F3E5AB] transition-all duration-200 hover:border-[#D4AF37] hover:shadow-[0_0_18px_rgba(212,175,55,0.45)]"
               >
                 {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </button>
+              </motion.button>
             </div>
 
             {/* Center Mid-Flight Callout Flash */}
@@ -930,18 +932,24 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
                   Collect golden stars &amp; boosts to sustain your Runway fuel. Dodge red
                   asteroids and Red Tape gates. Reach 100,000 KM to bank your score or risk x2!
                 </p>
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ y: -2, scale: 1.03 }}
+                  whileTap={{ scale: 0.96 }}
                   onClick={resetAndStart}
-                  className="mt-6 inline-flex min-h-[46px] items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E5C667] to-[#C69C2B] px-7 py-2.5 text-sm font-semibold text-[#1A100A] shadow-[0_12px_32px_-8px_rgba(212,175,55,0.55)] transition-transform hover:scale-[1.03] active:scale-[0.98]"
+                  className="group relative mt-6 inline-flex min-h-[46px] items-center gap-2 overflow-hidden rounded-full border border-[#F3E5AB]/55 bg-gradient-to-r from-[#D4AF37] via-[#E5C667] to-[#C69C2B] px-7 py-2.5 text-sm font-semibold text-[#1A100A] shadow-[0_12px_32px_-8px_rgba(212,175,55,0.55)] transition-shadow duration-200 hover:shadow-[0_0_32px_rgba(212,175,55,0.72)]"
                 >
-                  <Play className="h-4 w-4 fill-current" />
-                  <span>Tap to Launch</span>
-                </button>
+                  <span
+                    aria-hidden="true"
+                    className="shimmer-sweep-bar pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                  />
+                  <Play className="relative z-10 h-4 w-4 fill-current transition-transform duration-200 group-hover:scale-110" />
+                  <span className="relative z-10">Tap to Launch</span>
+                </motion.button>
               </motion.div>
             )}
 
-            {/* Checkpoint Modal ("Bank it" vs "Keep going" like book.sequel.co!) */}
+            {/* Checkpoint Modal ("Bank it" vs "Keep going") */}
             {gameState === 'CHECKPOINT' && (
               <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#1A100A]/85 p-5 backdrop-blur-md">
                 <div className="w-full max-w-sm space-y-3 text-center">
@@ -951,26 +959,30 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
                   <h3 className="font-serif text-3xl font-semibold text-[#FAF6EE]">
                     Orbital Milestone
                   </h3>
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ y: -2, scale: 1.015 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={handleBankScore}
-                    className="w-full rounded-2xl border border-[#D4AF37]/35 bg-[#24160E] p-4 text-left transition-colors hover:border-[#D4AF37]"
+                    className="w-full rounded-2xl border border-[#D4AF37]/35 bg-[#24160E] p-4 text-left transition-all duration-200 hover:border-[#D4AF37] hover:shadow-[0_0_24px_rgba(212,175,55,0.3)]"
                   >
                     <div className="text-sm font-semibold text-[#FAF6EE]">Bank it</div>
                     <div className="text-xs text-[#C5B49A]">
                       End here safely with x1.5 altitude bonus
                     </div>
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     type="button"
+                    whileHover={{ y: -2, scale: 1.015 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={handleKeepGoing}
-                    className="w-full rounded-2xl bg-gradient-to-r from-[#D4AF37] to-[#E5C667] p-4 text-left text-[#1A100A]"
+                    className="w-full rounded-2xl border border-[#F3E5AB]/50 bg-gradient-to-r from-[#D4AF37] to-[#E5C667] p-4 text-left text-[#1A100A] shadow-[0_8px_24px_-6px_rgba(212,175,55,0.45)] transition-shadow duration-200 hover:shadow-[0_0_28px_rgba(243,229,171,0.6)]"
                   >
                     <div className="text-sm font-semibold">Keep going</div>
                     <div className="text-xs opacity-85">
                       Deep Space x2 climb &amp; +25% Runway boost
                     </div>
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             )}
@@ -980,27 +992,31 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
               <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-[#1A100A]/80 p-6 text-center backdrop-blur-sm">
                 <h3 className="font-serif text-2xl font-semibold text-[#FAF6EE]">Flight Paused</h3>
                 <div className="mt-5 flex items-center gap-3">
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ y: -2, scale: 1.03 }}
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => setGameState('PLAYING')}
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#E5C667] px-6 py-2 text-sm font-semibold text-[#1A100A]"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#F3E5AB]/50 bg-gradient-to-r from-[#D4AF37] to-[#E5C667] px-6 py-2 text-sm font-semibold text-[#1A100A] shadow-[0_8px_22px_-6px_rgba(212,175,55,0.5)] transition-shadow duration-200 hover:shadow-[0_0_24px_rgba(212,175,55,0.65)]"
                   >
                     <Play className="h-4 w-4 fill-current" />
                     <span>Resume</span>
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     type="button"
+                    whileHover={{ y: -2, scale: 1.03 }}
+                    whileTap={{ scale: 0.96 }}
                     onClick={resetAndStart}
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#D4AF37]/40 px-5 py-2 text-sm font-medium text-[#FAF6EE]"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#1A100A]/75 px-5 py-2 text-sm font-medium text-[#FAF6EE] transition-all duration-200 hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.35)]"
                   >
                     <RotateCcw className="h-4 w-4" />
                     <span>Restart</span>
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             )}
 
-            {/* Game Over Summary (like book.sequel.co 0:41!) */}
+            {/* Game Over Summary */}
             {gameState === 'GAME_OVER' && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.96 }}
@@ -1017,14 +1033,20 @@ export const AuroraDriftGame = React.memo(function AuroraDriftGame() {
                   ✦ {orbsCollected} Stars · 🚀 {boostsCollected} Boosts · Best:{' '}
                   {bestKm.toLocaleString()} km
                 </p>
-                <button
+                <motion.button
                   type="button"
+                  whileHover={{ y: -2, scale: 1.03 }}
+                  whileTap={{ scale: 0.96 }}
                   onClick={resetAndStart}
-                  className="mt-6 inline-flex min-h-[46px] items-center gap-2 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E5C667] to-[#C69C2B] px-7 py-2.5 text-sm font-semibold text-[#1A100A] shadow-[0_12px_32px_-8px_rgba(212,175,55,0.55)] transition-transform active:scale-[0.98]"
+                  className="group relative mt-6 inline-flex min-h-[46px] items-center gap-2 overflow-hidden rounded-full border border-[#F3E5AB]/55 bg-gradient-to-r from-[#D4AF37] via-[#E5C667] to-[#C69C2B] px-7 py-2.5 text-sm font-semibold text-[#1A100A] shadow-[0_12px_32px_-8px_rgba(212,175,55,0.55)] transition-shadow duration-200 hover:shadow-[0_0_32px_rgba(212,175,55,0.72)]"
                 >
-                  <RotateCcw className="h-4 w-4" />
-                  <span>Next Launch</span>
-                </button>
+                  <span
+                    aria-hidden="true"
+                    className="shimmer-sweep-bar pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                  />
+                  <RotateCcw className="relative z-10 h-4 w-4 transition-transform duration-200 group-hover:-rotate-45" />
+                  <span className="relative z-10">Next Launch</span>
+                </motion.button>
               </motion.div>
             )}
           </div>

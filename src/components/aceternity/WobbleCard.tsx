@@ -5,6 +5,7 @@ interface WobbleCardProps {
   children: ReactNode;
   containerClassName?: string;
   className?: string;
+  preserve3d?: boolean;
 }
 
 /**
@@ -15,6 +16,7 @@ export function WobbleCard({
   children,
   containerClassName = '',
   className = '',
+  preserve3d = true,
 }: WobbleCardProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -24,14 +26,16 @@ export function WobbleCard({
   const rawY = useMotionValue(0);
   const rawTiltX = useMotionValue(0);
   const rawTiltY = useMotionValue(0);
+  const rawInnerX = useMotionValue(0);
+  const rawInnerY = useMotionValue(0);
 
   const x = useSpring(rawX, { stiffness: 220, damping: 20 });
   const y = useSpring(rawY, { stiffness: 220, damping: 20 });
   const rotateX = useSpring(rawTiltX, { stiffness: 220, damping: 22 });
   const rotateY = useSpring(rawTiltY, { stiffness: 220, damping: 22 });
 
-  const innerX = useSpring(useMotionValue(0), { stiffness: 200, damping: 22 });
-  const innerY = useSpring(useMotionValue(0), { stiffness: 200, damping: 22 });
+  const innerX = useSpring(rawInnerX, { stiffness: 200, damping: 22 });
+  const innerY = useSpring(rawInnerY, { stiffness: 200, damping: 22 });
 
   const updateFromClient = (clientX: number, clientY: number) => {
     if (prefersReducedMotion || !ref.current) return;
@@ -46,8 +50,8 @@ export function WobbleCard({
     rawY.set(clampedY * 7);
     rawTiltY.set(clampedX * 6.5);
     rawTiltX.set(-clampedY * 6.5);
-    innerX.set(-clampedX * 5);
-    innerY.set(-clampedY * 5);
+    rawInnerX.set(-clampedX * 5);
+    rawInnerY.set(-clampedY * 5);
   };
 
   const reset = () => {
@@ -56,8 +60,8 @@ export function WobbleCard({
     rawY.set(0);
     rawTiltX.set(0);
     rawTiltY.set(0);
-    innerX.set(0);
-    innerY.set(0);
+    rawInnerX.set(0);
+    rawInnerY.set(0);
   };
 
   return (
@@ -82,7 +86,7 @@ export function WobbleCard({
           y,
           rotateX,
           rotateY,
-          transformStyle: 'preserve-3d',
+          transformStyle: preserve3d ? 'preserve-3d' : 'flat',
         }}
         animate={{
           scale: isActive && !prefersReducedMotion ? 1.018 : 1,

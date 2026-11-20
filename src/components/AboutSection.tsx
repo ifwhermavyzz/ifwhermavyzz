@@ -36,7 +36,7 @@ export const AboutSection = React.memo(function AboutSection() {
         viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
       >
-        <WobbleCard>
+        <WobbleCard preserve3d={false}>
           <HoverBorderGradient roundedClassName="rounded-3xl">
             <CardSpotlight className="rounded-3xl p-6 sm:p-10 lg:p-12">
               <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
@@ -57,14 +57,16 @@ export const AboutSection = React.memo(function AboutSection() {
                     </p>
                   </div>
 
-                  {/* Rolling Odometer Stats inspired by jjettas.com & book.sequel.co */}
-                  <div className="mt-9 grid grid-cols-3 gap-6 border-t border-[#D4AF37]/20 pt-7">
+                  {/* Rolling Odometer Stats */}
+                  <div className="mt-9 grid grid-cols-3 gap-6 border-t border-[#D4AF37]/25 pt-7">
                     <div>
                       <div className="font-serif text-3xl font-semibold text-[#F3E5AB] sm:text-4xl">
-                        <OdometerNumber target={7} />
+                        <OdometerNumber target={6} />
+                        <span className="text-[#D4AF37]">+</span>
+                        <OdometerNumber target={1} />
                       </div>
                       <div className="mt-1 text-xs text-[#C5B49A] sm:text-sm">
-                        Chambers &amp; Mystery
+                        6 Chambers + 1 Mystery
                       </div>
                     </div>
                     <div>
@@ -85,10 +87,10 @@ export const AboutSection = React.memo(function AboutSection() {
                 </div>
 
                 {/* Lazy-loaded R3F 3D Interactive Astrolabe */}
-                <div className="overflow-hidden rounded-2xl border border-[#D4AF37]/25 bg-[#140C07]/80 lg:col-span-5">
+                <div className="overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#140C07]/80 lg:col-span-5">
                   <Suspense
                     fallback={
-                      <div className="flex h-[300px] items-center justify-center text-xs tracking-widest text-[#D4AF37]/70 sm:h-[340px]">
+                      <div className="flex h-[300px] items-center justify-center text-xs tracking-widest text-[#D4AF37]/70 sm:h-[350px]">
                         Loading 3D Astrolabe...
                       </div>
                     }
@@ -102,8 +104,8 @@ export const AboutSection = React.memo(function AboutSection() {
         </WobbleCard>
       </motion.div>
 
-      {/* book.sequel.co-inspired Scroll-Illuminated Chamber Lineup */}
-      <div className="mt-14 border-y border-[#D4AF37]/15 py-4 text-center">
+      {/* Scroll-Illuminated Chamber Lineup */}
+      <div className="mt-14 border-y border-[#D4AF37]/20 py-4 text-center">
         <p className="text-[11px] font-medium tracking-[0.24em] text-[#C5B49A]">
           FEATURING CHAMBERS
         </p>

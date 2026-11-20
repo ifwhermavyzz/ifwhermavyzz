@@ -44,9 +44,9 @@ export function HeroSection({
         {/* Official Circular Aurora Summit 1.0 Logo with continuous levitation & scroll parallax */}
         <motion.div
           style={prefersReducedMotion ? undefined : { y: crestY }}
-          initial={{ opacity: 0, scale: 0.82 }}
+          initial={{ opacity: 0, scale: 0.86 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.85, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.75, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="relative mb-6"
         >
           <motion.div
@@ -66,7 +66,7 @@ export function HeroSection({
               src={BRAND_ASSETS.logo}
               alt="Aurora Summit 1.0 Official Crest"
               referrerPolicy="no-referrer"
-              className="relative h-28 w-28 rounded-full border border-[#D4AF37]/55 object-cover shadow-[0_0_55px_-8px_rgba(212,175,55,0.5)] sm:h-36 sm:w-36"
+              className="relative h-28 w-28 rounded-full border-2 border-[#D4AF37]/65 object-cover shadow-[0_0_55px_-8px_rgba(212,175,55,0.55)] sm:h-36 sm:w-36"
             />
           </motion.div>
         </motion.div>
@@ -79,7 +79,7 @@ export function HeroSection({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.05 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
             className="mb-4 flex flex-wrap items-center justify-center gap-2.5 text-xs font-medium tracking-[0.2em] text-[#D4AF37] sm:text-sm"
           >
             <span>Aurora Summit 1.0</span>
@@ -93,7 +93,7 @@ export function HeroSection({
           <CursorSpotlightRegion className="w-full max-w-4xl px-2 py-3">
             <TextGenerateEffect
               words="The Aurora Summit - A Constellation of Voices"
-              startDelay={1.15}
+              startDelay={0.4}
               className="font-serif text-[clamp(2.25rem,5.8vw,4.75rem)] leading-[1.08] font-semibold tracking-tight [text-wrap:balance]"
             />
           </CursorSpotlightRegion>
@@ -101,7 +101,7 @@ export function HeroSection({
           <motion.p
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 1.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.65, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
             className="mt-4 max-w-2xl text-base leading-relaxed text-[#D6C7B2] sm:text-lg"
           >
             Convene beneath celestial gold across UNEP, UNCSW, IPL, CBI, IPC, and AIPPM—where
@@ -112,7 +112,7 @@ export function HeroSection({
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 1.85, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.65, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
             className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
           >
             <button
