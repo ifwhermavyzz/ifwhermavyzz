@@ -137,7 +137,7 @@ export interface ExperienceHighlight {
   title: string;
   kicker: string;
   description: string;
-  icon: 'briefcase' | 'camera' | 'coffee' | 'users' | 'disc' | 'trophy' | 'sparkles';
+  icon: 'briefcase' | 'camera' | 'coffee' | 'users' | 'disc' | 'trophy' | 'sparkles' | 'award';
   spanClass: string;
   isSurprise?: boolean;
 }
@@ -146,9 +146,9 @@ export const CONFERENCE_HIGHLIGHTS: ExperienceHighlight[] = [
   {
     id: 'delegate-kit',
     title: 'Delegate Kit',
-    kicker: 'Curated Welcome',
+    kicker: 'Curated Welcome & Perks',
     description:
-      'Bespoke summit folder, embossed gold Aurora Summit crest pin, custom notepad, placard, and credential lanyard.',
+      'Bespoke summit folder, embossed gold Aurora Summit crest pin, notepad, placard, lanyard, plus Letter of Recommendation (LOR) and Letter of Appointment (LOA) credentials.',
     icon: 'briefcase',
     spanClass: 'md:col-span-2 lg:col-span-2',
   },
@@ -198,13 +198,22 @@ export const CONFERENCE_HIGHLIGHTS: ExperienceHighlight[] = [
     spanClass: 'md:col-span-2 lg:col-span-2',
   },
   {
+    id: 'official-lor-loa',
+    title: 'Official LOR & LOA Perks',
+    kicker: 'Secretariat & Delegate Recognition',
+    description:
+      'Verified Letter of Recommendation (LOR) and Letter of Appointment (LOA) awarded as premier portfolio and academic credentials for both Delegates and Secretariat.',
+    icon: 'award',
+    spanClass: 'md:col-span-1 lg:col-span-2',
+  },
+  {
     id: 'special-twist',
     title: 'Special Twist',
     kicker: 'Live Conference Surprise',
     description:
       'An unannounced cross-council twist triggered mid-summit—hover or tap to decode the classified hint.',
     icon: 'sparkles',
-    spanClass: 'md:col-span-2 lg:col-span-1',
+    spanClass: 'md:col-span-1 lg:col-span-2',
     isSurprise: true,
   },
 ];

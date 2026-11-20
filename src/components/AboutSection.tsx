@@ -82,12 +82,10 @@ export const AboutSection = React.memo(function AboutSection() {
                   <div className="mt-9 grid grid-cols-3 gap-6 border-t border-[#D4AF37]/25 pt-7">
                     <div>
                       <div className="font-serif text-3xl font-semibold text-[#F3E5AB] sm:text-4xl">
-                        <OdometerNumber target={6} />
-                        <span className="text-[#D4AF37]">+</span>
-                        <OdometerNumber target={1} />
+                        <OdometerNumber target={6} suffix="+" />
                       </div>
                       <div className="mt-1 text-xs text-[#C5B49A] sm:text-sm">
-                        6 Chambers + 1 Mystery
+                        6 Chambers &amp; Surprise Committees
                       </div>
                     </div>
                     <div>

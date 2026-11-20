@@ -92,16 +92,20 @@ function buildSpeechLines(committeeId: SelectableCommitteeId | null, topic: stri
   ];
 }
 
-function isSurpriseQuery(input: string): boolean {
+function isClassifiedSeventhQuery(input: string): boolean {
   const q = input.toLowerCase();
   return (
     q.includes('unhrc') ||
     q.includes('7th chamber') ||
     q.includes('7th committee') ||
     q.includes('seventh chamber') ||
-    q.includes('seventh committee') ||
-    q.includes('surprise')
+    q.includes('seventh committee')
   );
+}
+
+function isSurpriseCommitteesQuery(input: string): boolean {
+  const q = input.toLowerCase();
+  return q.includes('surprise') || q.includes('mystery');
 }
 
 function isVenueOrDateQuery(input: string): boolean {
@@ -223,9 +227,17 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
     const trimmed = speechDraft.trim();
     if (!trimmed) return;
 
-    if (isSurpriseQuery(trimmed)) {
+    if (isClassifiedSeventhQuery(trimmed)) {
       appendExchange(trimmed, {
         text: 'That chamber is Classified. Wait for the reveal! 🌟',
+      });
+      setSpeechDraft('');
+      return;
+    }
+
+    if (isSurpriseCommitteesQuery(trimmed)) {
+      appendExchange(trimmed, {
+        text: 'We have 1 confirmed mystery chamber, and 3-4 more surprise committees will be revealed based on the number of delegates! Register now to unlock them. 🌟',
       });
       setSpeechDraft('');
       return;
@@ -259,10 +271,18 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
     if (!trimmed) return;
     setInput('');
 
-    // Guard classified 7th chamber / UNHRC across every state
-    if (isSurpriseQuery(trimmed)) {
+    // Guard classified UNHRC / 7th chamber across every state
+    if (isClassifiedSeventhQuery(trimmed)) {
       appendExchange(trimmed, {
         text: 'That chamber is Classified. Wait for the reveal! 🌟',
+      });
+      return;
+    }
+
+    // Surprise Committees query
+    if (isSurpriseCommitteesQuery(trimmed)) {
+      appendExchange(trimmed, {
+        text: 'We have 1 confirmed mystery chamber, and 3-4 more surprise committees will be revealed based on the number of delegates! Register now to unlock them. 🌟',
       });
       return;
     }
@@ -318,15 +338,22 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
       handleOpenSpeechReview();
       return;
     }
-    if (lower.includes('founder') || lower.includes('trisha') || lower.includes('contact')) {
+    if (
+      lower.includes('founder') ||
+      lower.includes('trisha') ||
+      lower.includes('navya') ||
+      lower.includes('ishana') ||
+      lower.includes('mayank') ||
+      lower.includes('contact')
+    ) {
       appendExchange(trimmed, {
-        text: 'You can reach our Founder & Director, Trisha Goyal, at +91 96250 48317 (WhatsApp: https://wa.me/919625048317) or scroll to the Contact section above the footer.',
+        text: 'You can reach our Secretariat Heads via WhatsApp in the Contact section above the footer: Trisha Goyal (Founder & Director: +91 9625048317), Navya (Director General: +91 7292070031), Ishana (President: +91 8287139193), and Mayank (Head of Tech: +91 8178026845).',
       });
       return;
     }
 
     appendExchange(trimmed, {
-      text: 'Use the interactive chips above to navigate your MUN prep, pick a committee (UNEP, UNCSW, AIPPM, IPL, CBI, IPC), or ask about Venue & Dates!',
+      text: 'Use the interactive chips above to navigate your MUN prep, pick a committee (UNEP, UNCSW, AIPPM, IPL, CBI, IPC), or ask about Surprise Committees, Venue, or Dates!',
     });
   };
 

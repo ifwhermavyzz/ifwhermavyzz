@@ -86,7 +86,7 @@ export function HeroSection({
             <span aria-hidden="true">·</span>
             <span>Model United Nations</span>
             <span aria-hidden="true">·</span>
-            <span>6 Chambers &amp; 1 Surprise</span>
+            <span>6 Chambers &amp; Surprise Committees</span>
           </motion.div>
 
           {/* Mouse-Following Spotlight Highlighting Aceternity TextGenerateEffect */}

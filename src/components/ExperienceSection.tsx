@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
+  Award,
   Briefcase,
   Camera,
   Coffee,
@@ -29,6 +30,8 @@ function HighlightIcon({ name }: { name: ExperienceHighlight['icon'] }) {
       return <Disc3 className={cls} strokeWidth={1.6} />;
     case 'trophy':
       return <Trophy className={cls} strokeWidth={1.6} />;
+    case 'award':
+      return <Award className={cls} strokeWidth={1.6} />;
     case 'sparkles':
       return <Sparkles className={cls} strokeWidth={1.6} />;
   }

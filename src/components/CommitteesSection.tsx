@@ -157,8 +157,8 @@ export const CommitteesSection = React.memo(function CommitteesSection({
           </h2>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-[#D6C7B2]">
-          Every poster card wobbles and tilts in 3D as you scroll or glide across it—plus inspect
-          the classified surprise chamber below.
+          Every poster card tilts in 3D as you scroll or glide across it—plus inspect our
+          multiple surprise chambers teaser below.
         </p>
       </motion.div>
 
@@ -241,10 +241,14 @@ export const CommitteesSection = React.memo(function CommitteesSection({
                           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                           exit={{ opacity: 0, y: -6, filter: 'blur(6px)' }}
                           transition={{ duration: 0.25 }}
+                          className="space-y-1.5"
                         >
                           <h3 className="font-serif text-2xl font-semibold text-[#F3E5AB] sm:text-3xl">
-                            Surprise will be revealed soon...
+                            Multiple Surprise Chambers (Based on Delegates)
                           </h3>
+                          <p className="text-xs text-[#D6C7B2] sm:text-sm">
+                            1 confirmed mystery chamber + 3–4 more unlocked based on delegate count!
+                          </p>
                         </motion.div>
                       ) : (
                         <motion.div
@@ -259,7 +263,7 @@ export const CommitteesSection = React.memo(function CommitteesSection({
                             [ ACCESS RESTRICTED · SURPRISE ]
                           </h3>
                           <p className="text-xs text-[#C5B49A] sm:text-sm">
-                            Hover or tap to inspect the classified transmission
+                            Multiple Surprise Chambers (Based on Delegates) — Hover or tap to inspect
                           </p>
                         </motion.div>
                       )}

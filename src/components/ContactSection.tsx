@@ -22,24 +22,32 @@ function WhatsAppIcon({ className = 'h-4 w-4' }: { className?: string }) {
 interface SecretariatHead {
   role: string;
   name: string;
-  portfolio: string;
+  title: string;
+  phoneDisplay: string;
+  waNumber: string;
 }
 
 const SECRETARIAT_HEADS: SecretariatHead[] = [
   {
     role: 'Director General',
-    name: 'Name TBA',
-    portfolio: 'Conference Operations & Protocol',
+    name: 'Navya',
+    title: 'Director General',
+    phoneDisplay: '+91 7292070031',
+    waNumber: '917292070031',
   },
   {
-    role: 'Chief of Tech',
-    name: 'Name TBA',
-    portfolio: 'Digital Infrastructure & Systems',
+    role: 'President',
+    name: 'Ishana',
+    title: 'President',
+    phoneDisplay: '+91 8287139193',
+    waNumber: '918287139193',
   },
   {
-    role: 'Head of Delegate Affairs',
-    name: 'Name TBA',
-    portfolio: 'Registrations & Committee Liaison',
+    role: 'Head of Tech',
+    name: 'Mayank',
+    title: 'Digital Infrastructure & Systems',
+    phoneDisplay: '+91 8178026845',
+    waNumber: '918178026845',
   },
 ];
 
@@ -85,24 +93,22 @@ export function ContactSection() {
                 Trisha Goyal
               </h3>
               <p className="text-sm font-normal text-white/80 sm:text-[15px]">
-                Founder &amp; Director, Aurora Summit 1.0
+                Founder &amp; Director
               </p>
             </div>
 
             <div className="flex flex-col items-start gap-2.5 sm:items-end">
-              <span className="text-xs tracking-[0.12em] text-white/60">
-                Contact
-              </span>
+              <span className="text-xs tracking-[0.12em] text-white/60">WhatsApp</span>
 
               <a
                 href="https://wa.me/919625048317"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Contact Trisha Goyal on WhatsApp at +91 96250 48317"
+                aria-label="WhatsApp Trisha Goyal at +91 9625048317"
                 className="group inline-flex min-h-[44px] items-center gap-3 rounded-2xl border border-[#D4AF37]/40 bg-[#1A100A]/80 px-4 py-2.5 text-sm font-medium text-white whitespace-nowrap shrink-0 transition-all duration-200 hover:border-[#D4AF37] hover:bg-[#D4AF37]/12 hover:shadow-[0_0_24px_rgba(212,175,55,0.3)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37]"
               >
                 <Phone className="h-3.5 w-3.5 text-[#D4AF37]/85" aria-hidden="true" />
-                <span className="tabular-nums tracking-wide text-white">+91 96250 48317</span>
+                <span className="tabular-nums tracking-wide text-white">+91 9625048317</span>
                 <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/15 text-[#F3E5AB] transition-transform duration-200 group-hover:scale-105 group-hover:bg-[#D4AF37] group-hover:text-[#1A100A]">
                   <WhatsAppIcon className="h-3.5 w-3.5" />
                 </span>
@@ -111,12 +117,12 @@ export function ContactSection() {
           </div>
         </div>
 
-        {/* Secretariat Heads Placeholder Grid */}
+        {/* Secretariat Heads Grid */}
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {SECRETARIAT_HEADS.map((head) => (
             <div
               key={head.role}
-              className="aurora-glass flex flex-col justify-between rounded-2xl border border-[#D4AF37]/25 px-5 py-5 transition-colors duration-200 hover:border-[#D4AF37]/50"
+              className="aurora-glass flex flex-col justify-between gap-4 rounded-2xl border border-[#D4AF37]/25 px-5 py-5 transition-colors duration-200 hover:border-[#D4AF37]/55"
             >
               <div>
                 <p className="text-[11px] font-medium tracking-[0.14em] text-[#D4AF37]">
@@ -125,10 +131,24 @@ export function ContactSection() {
                 <h3 className="mt-1.5 font-serif text-xl font-semibold text-white">
                   {head.name}
                 </h3>
+                <p className="mt-1 text-xs leading-relaxed text-white/75">{head.title}</p>
               </div>
-              <p className="mt-3 text-xs leading-relaxed text-white/65">
-                {head.portfolio}
-              </p>
+
+              <a
+                href={`https://wa.me/${head.waNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`WhatsApp ${head.name} (${head.role}) at ${head.phoneDisplay}`}
+                className="group inline-flex min-h-[44px] w-full items-center justify-between gap-2.5 rounded-2xl border border-[#D4AF37]/35 bg-[#1A100A]/80 px-3.5 py-2 text-xs font-medium text-white whitespace-nowrap transition-all duration-200 hover:border-[#D4AF37] hover:bg-[#D4AF37]/12 hover:shadow-[0_0_20px_rgba(212,175,55,0.28)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37]"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <Phone className="h-3.5 w-3.5 text-[#D4AF37]/85" aria-hidden="true" />
+                  <span className="tabular-nums tracking-wide text-white">{head.phoneDisplay}</span>
+                </span>
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/15 text-[#F3E5AB] transition-transform duration-200 group-hover:scale-105 group-hover:bg-[#D4AF37] group-hover:text-[#1A100A]">
+                  <WhatsAppIcon className="h-3.5 w-3.5" />
+                </span>
+              </a>
             </div>
           ))}
         </div>
