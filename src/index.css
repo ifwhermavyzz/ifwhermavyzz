@@ -81,10 +81,10 @@ html.lenis body {
     0 16px 40px -12px rgba(0, 0, 0, 0.82);
 }
 
-/* Marquee 3D Continuous Scroll */
+/* Marquee 3D Continuous Right-to-Left Infinite Scroll */
 @keyframes marquee-scroll {
   0% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0%, 0, 0);
   }
   100% {
     transform: translate3d(-50%, 0, 0);
@@ -94,15 +94,20 @@ html.lenis body {
 .animate-marquee-3d {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 28s linear infinite;
+  animation: marquee-scroll 22s linear infinite;
   will-change: transform;
 }
 
 .animate-marquee-3d-reverse {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 34s linear infinite reverse;
+  animation: marquee-scroll 28s linear infinite reverse;
   will-change: transform;
+}
+
+.marquee-group:hover .animate-marquee-3d,
+.marquee-group:hover .animate-marquee-3d-reverse {
+  animation-play-state: paused;
 }
 
 /* Shimmer & Spotlight Keyframes */
@@ -167,8 +172,6 @@ html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee-3d,
-  .animate-marquee-3d-reverse,
   .shimmer-sweep-bar,
   .animate-spotlight,
   .hero-gold-shimmer {
