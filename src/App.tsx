@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,20 +10,27 @@ import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { CommitteesSection } from './components/CommitteesSection';
 import { ExperienceSection } from './components/ExperienceSection';
-import { AuroraDriftGame } from './components/AuroraDriftGame';
 import { RegistrationSection } from './components/RegistrationSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { MiniAiAssistant } from './components/MiniAiAssistant';
 import { CustomGlowingCursor } from './components/CustomGlowingCursor';
+import { useIsMobileViewport } from './hooks/useIsMobileViewport';
+
+const AuroraDriftGame = lazy(() =>
+  import('./components/AuroraDriftGame').then((m) => ({ default: m.AuroraDriftGame }))
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const isMobile = useIsMobileViewport();
   const [activeSection, setActiveSection] = useState<NavSectionId>('home');
   const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 35, active: false });
+  const [shouldLoadGame, setShouldLoadGame] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
   const mainRef = useRef<HTMLElement | null>(null);
+  const gameSentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -76,17 +83,38 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    if (isMobile) return;
     const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return;
       const x = (e.clientX / Math.max(1, window.innerWidth)) * 100;
       const y = (e.clientY / Math.max(1, window.innerHeight)) * 100;
       setSpotlightPos({ x, y, active: true });
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     return () => window.removeEventListener('pointermove', onPointerMove);
-  }, []);
+  }, [isMobile]);
+
+  useEffect(() => {
+    const el = gameSentinelRef.current;
+    if (!el || shouldLoadGame) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadGame(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '380px 0px', threshold: 0.01 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [shouldLoadGame]);
 
   const scrollToSection = useCallback((id: NavSectionId) => {
     setActiveSection(id);
+    if (id === 'game') setShouldLoadGame(true);
     const el = document.getElementById(id);
     if (!el) return;
     if (lenisRef.current) {
@@ -147,15 +175,17 @@ export default function App() {
         {/* Global Space Background with Parallax Scroll + R3F Golden Stars & Bubbles */}
         <SpaceParallaxBackground />
 
-        {/* Global Cursor-Following Golden Background Spotlight */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-[3] transition-opacity duration-300"
-          style={{
-            opacity: spotlightPos.active ? 1 : 0.45,
-            background: `radial-gradient(560px circle at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(212, 175, 55, 0.14), rgba(243, 229, 171, 0.04) 42%, transparent 72%)`,
-          }}
-        />
+        {/* Global Cursor-Following Golden Background Spotlight (Desktop only) */}
+        {!isMobile && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-0 z-[3] transition-opacity duration-300"
+            style={{
+              opacity: spotlightPos.active ? 1 : 0.45,
+              background: `radial-gradient(560px circle at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(212, 175, 55, 0.14), rgba(243, 229, 171, 0.04) 42%, transparent 72%)`,
+            }}
+          />
+        )}
 
         {/* Floating Pill Navbar with 1px Scroll Progress Indicator */}
         <Navbar activeSection={activeSection} onNavigate={scrollToSection} />
@@ -174,7 +204,29 @@ export default function App() {
 
           <ExperienceSection />
 
-          <AuroraDriftGame />
+          <div ref={gameSentinelRef}>
+            {shouldLoadGame ? (
+              <Suspense
+                fallback={
+                  <section
+                    id="game"
+                    className="relative z-10 mx-auto flex min-h-[540px] w-full max-w-6xl items-center justify-center px-4 py-16 text-xs tracking-[0.2em] text-[#D4AF37]/80 sm:px-6 lg:px-8 lg:py-24"
+                  >
+                    LOADING AURORA ASCENT...
+                  </section>
+                }
+              >
+                <AuroraDriftGame />
+              </Suspense>
+            ) : (
+              <section
+                id="game"
+                className="relative z-10 mx-auto flex min-h-[540px] w-full max-w-6xl items-center justify-center px-4 py-16 text-xs tracking-[0.2em] text-[#D4AF37]/60 sm:px-6 lg:px-8 lg:py-24"
+              >
+                AURORA ASCENT · SCROLL TO LAUNCH
+              </section>
+            )}
+          </div>
 
           <RegistrationSection />
 

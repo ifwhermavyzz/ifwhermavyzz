@@ -6,6 +6,7 @@ import { CardContainer, CardBody, CardItem } from './aceternity/ThreeDCard';
 import { WobbleCard } from './aceternity/WobbleCard';
 import { HoverBorderGradient } from './aceternity/HoverBorderGradient';
 import { CardSpotlight } from './aceternity/CardSpotlight';
+import { useIsMobileViewport } from '../hooks/useIsMobileViewport';
 
 interface CommitteesSectionProps {
   onRegisterCommittee: () => void;
@@ -22,6 +23,7 @@ function ScrollAnimatedCommitteeCard({
 }) {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobileViewport();
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ['start 0.98', 'end 0.2'],
@@ -34,7 +36,7 @@ function ScrollAnimatedCommitteeCard({
     <div ref={cardRef} className="flex">
       <motion.div
         style={
-          prefersReducedMotion
+          prefersReducedMotion || isMobile
             ? undefined
             : {
                 rotateX: scrollTiltX,
@@ -42,7 +44,7 @@ function ScrollAnimatedCommitteeCard({
                 transformPerspective: 1000,
               }
         }
-        initial={{ opacity: 0, y: 28 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}

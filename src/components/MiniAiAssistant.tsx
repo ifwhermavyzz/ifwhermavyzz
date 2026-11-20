@@ -345,7 +345,7 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             role="dialog"
             aria-label="Mini Aura MUN Guide"
-            className="relative mb-3 flex max-h-[calc(100dvh-6.5rem)] w-[calc(100vw-2rem)] max-w-[390px] flex-col overflow-hidden rounded-3xl border border-[#D4AF37]/45 bg-[#1A100A]/94 shadow-[0_24px_80px_-10px_rgba(0,0,0,0.92),0_0_34px_-8px_rgba(212,175,55,0.3)] backdrop-blur-xl"
+            className="relative mb-3 flex max-h-[calc(100dvh-6.5rem)] w-[calc(100vw-2rem)] max-w-[390px] flex-col overflow-hidden rounded-3xl border border-[#D4AF37]/45 bg-[#1A100A]/96 shadow-[0_24px_80px_-10px_rgba(0,0,0,0.92),0_0_34px_-8px_rgba(212,175,55,0.3)] backdrop-blur-md will-change-transform md:bg-[#1A100A]/94 md:backdrop-blur-xl"
           >
             {/* Sci-Fi Golden Top Hairline */}
             <div
@@ -681,7 +681,7 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
         whileTap={{ scale: 0.95 }}
         aria-expanded={open}
         aria-label={open ? 'Close Mini Aura' : 'Open Mini Aura'}
-        className="aurora-glass-pill group relative inline-flex h-12 items-center gap-2 rounded-full border border-[#D4AF37]/55 bg-[#1A100A]/92 px-3.5 text-xs font-semibold tracking-wide text-[#F3E5AB] shadow-[0_12px_36px_-6px_rgba(212,175,55,0.5)] transition-all duration-200 hover:border-[#D4AF37] hover:shadow-[0_0_32px_rgba(212,175,55,0.75)] sm:h-[52px] sm:gap-2.5 sm:px-4"
+        className="aurora-glass-pill group relative inline-flex h-12 items-center gap-2 rounded-full border border-[#D4AF37]/55 bg-[#1A100A]/92 px-3.5 text-xs font-semibold tracking-wide text-[#F3E5AB] shadow-[0_12px_36px_-6px_rgba(212,175,55,0.5)] transition-all duration-200 will-change-transform hover:border-[#D4AF37] hover:shadow-[0_0_32px_rgba(212,175,55,0.75)] sm:h-[52px] sm:gap-2.5 sm:px-4"
       >
         <span className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#F3E5AB] via-[#D4AF37] to-[#B57E28] text-[#1A100A] shadow-[0_0_18px_rgba(243,229,171,0.85)]">
           {open ? (

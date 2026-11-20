@@ -1,5 +1,6 @@
 import { ReactNode, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'motion/react';
+import { useIsMobileViewport } from '../../hooks/useIsMobileViewport';
 
 interface WobbleCardProps {
   children: ReactNode;
@@ -9,8 +10,9 @@ interface WobbleCardProps {
 }
 
 /**
- * Aceternity UI WobbleCard adapted for both desktop mouse AND mobile touch/tap
- * with smooth spring translation, 3D tilt, and subtle counter-parallax on inner content.
+ * Aceternity UI WobbleCard:
+ * - Desktop (>= 768px): full 3D mouse-tilt wobble + counter-parallax.
+ * - Mobile (< 768px): 3D tilt disabled; uses GPU-accelerated scale-up on tap.
  */
 export function WobbleCard({
   children,
@@ -20,6 +22,7 @@ export function WobbleCard({
 }: WobbleCardProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobileViewport();
   const [isActive, setIsActive] = useState(false);
 
   const rawX = useMotionValue(0);
@@ -38,7 +41,7 @@ export function WobbleCard({
   const innerY = useSpring(rawInnerY, { stiffness: 200, damping: 22 });
 
   const updateFromClient = (clientX: number, clientY: number) => {
-    if (prefersReducedMotion || !ref.current) return;
+    if (isMobile || prefersReducedMotion || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const nx = (clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
     const ny = (clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
@@ -64,23 +67,34 @@ export function WobbleCard({
     rawInnerY.set(0);
   };
 
+  if (isMobile) {
+    return (
+      <div className={`h-full ${containerClassName}`}>
+        <motion.div
+          whileTap={prefersReducedMotion ? undefined : { scale: 1.025 }}
+          transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+          className={`relative h-full overflow-hidden rounded-3xl will-change-transform ${className}`}
+        >
+          {children}
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ perspective: '1000px' }} className={`h-full ${containerClassName}`}>
       <motion.div
         ref={ref}
-        onPointerEnter={() => setIsActive(true)}
-        onPointerMove={(e) => {
-          setIsActive(true);
-          updateFromClient(e.clientX, e.clientY);
+        onPointerEnter={(e) => {
+          if (e.pointerType !== 'touch') setIsActive(true);
         }}
-        onPointerLeave={reset}
-        onTouchMove={(e) => {
-          if (e.touches[0]) {
+        onPointerMove={(e) => {
+          if (e.pointerType !== 'touch') {
             setIsActive(true);
-            updateFromClient(e.touches[0].clientX, e.touches[0].clientY);
+            updateFromClient(e.clientX, e.clientY);
           }
         }}
-        onTouchEnd={reset}
+        onPointerLeave={reset}
         style={{
           x,
           y,
@@ -92,12 +106,9 @@ export function WobbleCard({
           scale: isActive && !prefersReducedMotion ? 1.018 : 1,
         }}
         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-        className={`relative h-full overflow-hidden rounded-3xl ${className}`}
+        className={`relative h-full overflow-hidden rounded-3xl will-change-transform ${className}`}
       >
-        <motion.div
-          style={{ x: innerX, y: innerY }}
-          className="h-full w-full"
-        >
+        <motion.div style={{ x: innerX, y: innerY }} className="h-full w-full will-change-transform">
           {children}
         </motion.div>
       </motion.div>

@@ -81,6 +81,16 @@ html.lenis body {
     0 16px 40px -12px rgba(0, 0, 0, 0.82);
 }
 
+/* Mobile Glassmorphism GPU Optimization (< 768px only) */
+@media (max-width: 767px) {
+  .aurora-glass,
+  .aurora-glass-pill {
+    background: rgba(26, 16, 10, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
 /* Marquee 3D Continuous Right-to-Left Infinite Scroll */
 @keyframes marquee-scroll {
   0% {

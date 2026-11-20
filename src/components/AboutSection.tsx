@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { CardSpotlight } from './aceternity/CardSpotlight';
 import { HoverBorderGradient } from './aceternity/HoverBorderGradient';
@@ -10,6 +10,27 @@ const AuroraAstrolabe3D = lazy(() => import('./three/AuroraAstrolabe3D'));
 const STARRING_CHAMBERS = ['UNEP', 'UNCSW', 'IPL', 'CBI', 'IPC', 'AIPPM', 'SURPRISE'];
 
 export const AboutSection = React.memo(function AboutSection() {
+  const globeContainerRef = useRef<HTMLDivElement | null>(null);
+  const [shouldLoadGlobe, setShouldLoadGlobe] = useState(false);
+
+  useEffect(() => {
+    const el = globeContainerRef.current;
+    if (!el || shouldLoadGlobe) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadGlobe(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '320px 0px', threshold: 0.01 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [shouldLoadGlobe]);
+
   return (
     <section
       id="about"
@@ -86,17 +107,26 @@ export const AboutSection = React.memo(function AboutSection() {
                   </div>
                 </div>
 
-                {/* Lazy-loaded R3F 3D Interactive Astrolabe */}
-                <div className="overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#140C07]/80 lg:col-span-5">
-                  <Suspense
-                    fallback={
-                      <div className="flex h-[300px] items-center justify-center text-xs tracking-widest text-[#D4AF37]/70 sm:h-[350px]">
-                        Loading 3D Astrolabe...
-                      </div>
-                    }
-                  >
-                    <AuroraAstrolabe3D />
-                  </Suspense>
+                {/* Proximity Lazy-Loaded R3F 3D Interactive Astrolabe */}
+                <div
+                  ref={globeContainerRef}
+                  className="overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#140C07]/80 lg:col-span-5"
+                >
+                  {shouldLoadGlobe ? (
+                    <Suspense
+                      fallback={
+                        <div className="flex h-[300px] items-center justify-center text-xs tracking-widest text-[#D4AF37]/70 sm:h-[350px]">
+                          Loading 3D Astrolabe...
+                        </div>
+                      }
+                    >
+                      <AuroraAstrolabe3D />
+                    </Suspense>
+                  ) : (
+                    <div className="flex h-[300px] items-center justify-center text-xs tracking-widest text-[#D4AF37]/60 sm:h-[350px]">
+                      Initializing 3D Astrolabe...
+                    </div>
+                  )}
                 </div>
               </div>
             </CardSpotlight>

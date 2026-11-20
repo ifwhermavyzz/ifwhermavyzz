@@ -1,6 +1,7 @@
-import React, { Component, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Component, ReactNode, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useIsMobileViewport } from '../../hooks/useIsMobileViewport';
 
 class WebGLErrorBoundary extends Component<
   { children: ReactNode },
@@ -80,20 +81,25 @@ const ParticleAndBubbleField = React.memo(function ParticleAndBubbleField({
   }, [gl]);
 
   useEffect(() => {
+    const onScroll = () => {
+      scrollTarget.current = window.scrollY * 0.0018;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    if (isMobile) {
+      return () => window.removeEventListener('scroll', onScroll);
+    }
+
     const onMove = (e: PointerEvent) => {
       pointerTarget.current.x = (e.clientX / Math.max(1, window.innerWidth) - 0.5) * 2;
       pointerTarget.current.y = -(e.clientY / Math.max(1, window.innerHeight) - 0.5) * 2;
     };
-    const onScroll = () => {
-      scrollTarget.current = window.scrollY * 0.0018;
-    };
     window.addEventListener('pointermove', onMove, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [isMobile]);
 
   const aspectSpreadX = useMemo(() => {
     const aspect = size.width / Math.max(1, size.height);
@@ -243,33 +249,24 @@ const ParticleAndBubbleField = React.memo(function ParticleAndBubbleField({
 });
 
 const GoldenSpaceParticles = React.memo(function GoldenSpaceParticles() {
-  const [isMobile, setIsMobile] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false
-  );
+  const isMobile = useIsMobileViewport();
 
-  useEffect(() => {
-    const onResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', onResize, { passive: true });
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-
-  const starCount = isMobile ? 160 : 420;
-  const bubbleCount = isMobile ? 22 : 48;
+  // >70% reduction on mobile (< 768px) while preserving full desktop cinematic density
+  const starCount = isMobile ? 120 : 420;
+  const bubbleCount = isMobile ? 14 : 48;
 
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[2] h-full w-full"
+      className="pointer-events-none fixed inset-0 z-[2] h-full w-full will-change-transform"
     >
       <WebGLErrorBoundary>
         <Canvas
-          dpr={[1, isMobile ? 1.5 : 2]}
+          dpr={isMobile ? [1, 1] : [1, 2]}
           camera={{ position: [0, 0, 6.2], fov: 56 }}
           gl={{
             alpha: true,
-            antialias: true,
+            antialias: !isMobile,
             powerPreference: 'high-performance',
           }}
           style={{ width: '100%', height: '100%', display: 'block', pointerEvents: 'none' }}
