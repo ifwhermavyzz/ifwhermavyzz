@@ -32,8 +32,8 @@ const SECRETARIAT_HEADS: SecretariatHead[] = [
     role: 'Director General',
     name: 'Navya',
     title: 'Director General',
-    phoneDisplay: '+91 7292070031',
-    waNumber: '917292070031',
+    phoneDisplay: '+91 8130780648',
+    waNumber: '918130780648',
   },
   {
     role: 'President',

@@ -20,6 +20,7 @@ type SelectableCommitteeId = CommitteeId | 'UNHRC' | 'Surprise';
 interface StructuredLine {
   label: string;
   body: string;
+  href?: string;
 }
 
 interface ChatMessage {
@@ -347,7 +348,29 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
       lower.includes('contact')
     ) {
       appendExchange(trimmed, {
-        text: 'You can reach our Secretariat Heads via WhatsApp in the Contact section above the footer: Trisha Goyal (Founder & Director: +91 9625048317), Navya (Director General: +91 7292070031), Ishana (President: +91 8287139193), and Mayank (Head of Tech: +91 8178026845).',
+        text: 'Tap any Secretariat Head below to connect directly on WhatsApp:',
+        lines: [
+          {
+            label: 'Trisha Goyal · Founder & Director',
+            body: '+91 9625048317 (WhatsApp)',
+            href: 'https://wa.me/919625048317',
+          },
+          {
+            label: 'Navya · Director General',
+            body: '+91 8130780648 (WhatsApp)',
+            href: 'https://wa.me/918130780648',
+          },
+          {
+            label: 'Ishana · President',
+            body: '+91 8287139193 (WhatsApp)',
+            href: 'https://wa.me/918287139193',
+          },
+          {
+            label: 'Mayank · Head of Tech',
+            body: '+91 8178026845 (WhatsApp)',
+            href: 'https://wa.me/918178026845',
+          },
+        ],
       });
       return;
     }
@@ -448,19 +471,36 @@ export const MiniAiAssistant = React.memo(function MiniAiAssistant() {
                     {msg.text && <p>{msg.text}</p>}
                     {msg.lines && (
                       <div className={msg.text ? 'mt-2.5 space-y-2' : 'space-y-2'}>
-                        {msg.lines.map((line) => (
-                          <div
-                            key={line.label}
-                            className="rounded-xl border border-[#D4AF37]/15 bg-[#1A100A]/75 px-2.5 py-2"
-                          >
-                            <span className="block text-[11px] font-semibold tracking-wide text-[#F3E5AB]">
-                              {line.label}
-                            </span>
-                            <span className="mt-0.5 block text-[11.5px] leading-relaxed text-[#E6DAC6]">
-                              {line.body}
-                            </span>
-                          </div>
-                        ))}
+                        {msg.lines.map((line) =>
+                          line.href ? (
+                            <a
+                              key={line.label}
+                              href={line.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block rounded-xl border border-[#D4AF37]/25 bg-[#1A100A]/85 px-2.5 py-2 transition-colors hover:border-[#D4AF37] hover:bg-[#D4AF37]/12"
+                            >
+                              <span className="block text-[11px] font-semibold tracking-wide text-[#F3E5AB]">
+                                {line.label}
+                              </span>
+                              <span className="mt-0.5 block text-[11.5px] leading-relaxed text-[#E6DAC6] underline decoration-[#D4AF37]/50 underline-offset-2">
+                                {line.body}
+                              </span>
+                            </a>
+                          ) : (
+                            <div
+                              key={line.label}
+                              className="rounded-xl border border-[#D4AF37]/15 bg-[#1A100A]/75 px-2.5 py-2"
+                            >
+                              <span className="block text-[11px] font-semibold tracking-wide text-[#F3E5AB]">
+                                {line.label}
+                              </span>
+                              <span className="mt-0.5 block text-[11.5px] leading-relaxed text-[#E6DAC6]">
+                                {line.body}
+                              </span>
+                            </div>
+                          )
+                        )}
                       </div>
                     )}
                   </div>
